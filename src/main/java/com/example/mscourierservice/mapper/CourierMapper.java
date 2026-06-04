@@ -5,7 +5,7 @@ import com.example.mscourierservice.dao.dto.CourierResponseDto;
 import com.example.mscourierservice.dao.entity.CourierEntity;
 import com.example.mscourierservice.dao.entity.CourierStatus;
 
-public class CourierMapper {
+public interface CourierMapper {
     public static CourierEntity maptoEntity(CourierRequestDto dto) {
         return CourierEntity.builder()
                 .name(dto.getName())
