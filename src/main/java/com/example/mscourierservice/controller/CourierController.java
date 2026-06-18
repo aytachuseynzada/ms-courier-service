@@ -6,6 +6,7 @@ import com.example.mscourierservice.dao.dto.UpdateCourierStatusRequest;
 import com.example.mscourierservice.service.CourierService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +33,11 @@ public class CourierController {
         return courierService.getCourierById(id);
     }
     @GetMapping
-    public List<CourierResponseDto> getAllCouriers(){
-        return courierService.getAllCouriers();
+    public Page<CourierResponseDto> getAllCouriers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        return courierService.getAllCouriers(page,size);
     }
     @PatchMapping("/{id}/status")
     public CourierResponseDto updateCourierStatus(

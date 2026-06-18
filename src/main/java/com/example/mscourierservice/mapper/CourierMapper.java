@@ -6,14 +6,14 @@ import com.example.mscourierservice.dao.entity.CourierEntity;
 import com.example.mscourierservice.dao.entity.CourierStatus;
 
 public interface CourierMapper {
-    public static CourierEntity maptoEntity(CourierRequestDto dto) {
+    static CourierEntity maptoEntity(CourierRequestDto dto) {
         return CourierEntity.builder()
                 .name(dto.getName())
                 .phone(dto.getPhone())
                 .status(CourierStatus.FREE)
                 .build();
     }
-    public static CourierResponseDto maptoDto(CourierEntity courierEntity) {
+    static CourierResponseDto maptoDto(CourierEntity courierEntity) {
         return CourierResponseDto.builder()
                 .id(courierEntity.getId())
                 .name(courierEntity.getName())

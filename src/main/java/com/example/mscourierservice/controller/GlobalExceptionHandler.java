@@ -6,6 +6,8 @@ import com.example.mscourierservice.exception.NoAvailableCourierFound;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
@@ -20,7 +22,7 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleException(CourierNotFoundException ex){
         return new ErrorResponse("courier.not.found", ex.getMessage());
     }
-    @ResponseStatus(NOT_FOUND)
+    @ResponseStatus(CONFLICT)
     @ExceptionHandler(InvalidCourierStatusException.class)
     public ErrorResponse handleException(InvalidCourierStatusException ex){
         return new ErrorResponse("invalid.courier.status", ex.getMessage());

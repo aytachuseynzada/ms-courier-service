@@ -10,6 +10,9 @@ import com.example.mscourierservice.exception.InvalidCourierStatusException;
 import com.example.mscourierservice.mapper.CourierMapper;
 import com.example.mscourierservice.repository.CourierRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,16 +40,14 @@ public class CourierService {
                         new RuntimeException("Courier not found"));
         return CourierMapper.maptoDto(courier);
     }
-    public List<CourierResponseDto> getAllCouriers(){
-        var couriers = courierRepository.findAll()
-                .stream()
-                .map(CourierMapper::maptoDto)
-                .toList();
-        return couriers;
+    public Page<CourierResponseDto> getAllCouriers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return courierRepository.findAll(pageable)
+                .map(CourierMapper::maptoDto);
     }
     public CourierResponseDto updateCourierStatus(Long id, UpdateCourierStatusRequest request) {
-        CourierEntity courier = courierRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Courier not found"));
+        CourierEntity courier = findCourierById(id);
         courier.setStatus(request.getStatus());
         CourierEntity savedCourier = courierRepository.save(courier);
         return CourierMapper.maptoDto(savedCourier);
